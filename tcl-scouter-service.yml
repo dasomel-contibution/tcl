@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: scouter-server-service
+  namespace: ingress-nginx
+spec:
+  selector: 
+    app: scouter-server
+  ports:
+    - name: tcp
+      port: 6100
+      protocol: TCP
+    - name: udp
+      port: 6101
+      protocol: UDP
+    - name: web
+      port: 6180
+      protocol: TCP
+  type: NodePort  

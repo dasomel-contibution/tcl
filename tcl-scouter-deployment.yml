@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: scouter-server
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: scouter-server
+    spec:
+      containers:
+        - name: scouter-server
+          image: dasomel/scouter-server:v2.6.2
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1024Mi
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 6100
+            protocol: TCP
+          - containerPort: 6101
+            protocol: UDP
+          - containerPort: 6188
+            protocol: TCP

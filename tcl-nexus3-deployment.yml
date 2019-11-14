@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nexus3
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nexus3
+    spec:
+      containers:
+        - name: nexus3
+          image: sonatype/nexus3:latest
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8081
+          env:
+            - name: NEXUS_CONTEXT
+              value: nexus3
+#          volumeMounts:
+#            - name: docker-for-desktop-pvc
+#              mountPath: /nexus-data
+#      volumes:
+#        - name: docker-for-desktop-pvc
+#          emptyDir: {}

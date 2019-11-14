@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sonarqube
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sonarqube
+    spec:
+      containers:
+        - name: sonarqube
+          image: sonarqube:latest
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 2048Mi
+            limits:
+              cpu: 1000m
+              memory: 2048Mi
+#          volumeMounts:
+#          - mountPath: "/opt/sonarqube/data/"
+#            name: k8s-pvc
+#          - mountPath: "/opt/sonarqube/extensions/"
+#            name: k8s-pvc
+          env:
+          - name: "sonar.web.context"
+            value: "/sonarqube"
+#          - name: "SONARQUBE_JDBC_URL"
+#            valueFrom:
+#              secretKeyRef:
+#                name: k8s-secret
+#                key: SONARQUBE_JDBC_URL
+#          - name: "SONARQUBE_JDBC_USERNAME"
+#            valueFrom:
+#              secretKeyRef:
+#                name: k8s-secret
+#                key: SONARQUBE_JDBC_USERNAME
+#          - name: "SONARQUBE_JDBC_PASSWORD"
+#            valueFrom:
+#              secretKeyRef:
+#                name: k8s-secret
+#                key: SONARQUBE_JDBC_PASSWORD
+          ports:
+          - containerPort: 9000
+            protocol: TCP
+#      volumes:
+#      - name: k8s-pvc
+#        emptyDir: {}

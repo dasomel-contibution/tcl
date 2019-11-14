@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-service
+  namespace: tcl
+spec:
+  selector: 
+    app: jenkins
+  ports:
+    - port: 8081
+      targetPort: 8080
+      protocol: TCP
+  type: NodePort  

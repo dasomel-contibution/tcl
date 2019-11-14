@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1024Mi
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+#          volumeMounts:
+#          - mountPath: "/opt/sonarqube/data/"
+#            name: k8s-pvc
+#          - mountPath: "/opt/sonarqube/extensions/"
+#            name: k8s-pvc
+          env:
+          - name: "MYSQL_ROOT_PASSWORD"
+            value: "my-secret-pw"
+#          - name: "SONARQUBE_JDBC_USERNAME"
+#            valueFrom:
+#              secretKeyRef:
+#                name: k8s-secret
+#                key: SONARQUBE_JDBC_USERNAME
+#          - name: "SONARQUBE_JDBC_PASSWORD"
+#            valueFrom:
+#              secretKeyRef:
+#                name: k8s-secret
+#                key: SONARQUBE_JDBC_PASSWORD
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+#      volumes:
+#      - name: k8s-pvc
+#        emptyDir: {}

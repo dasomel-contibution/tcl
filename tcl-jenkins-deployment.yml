@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: tcl
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+        - name: jenkins
+          image: jenkins:latest
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+          ports:
+            - containerPort: 8080
+          env:
+          - name: JENKINS_OPTS
+            value: "--prefix=/jenkins"
+          volumeMounts:
+          - name: jenkins-pvc
+            mountPath: D:/tcl-ide-sunflower-64bit/data/jenkins-data
+      volumes:
+      - name: jenkins-pvc
+        persistentVolumeClaim:
+          claimName: tcl-pvc
